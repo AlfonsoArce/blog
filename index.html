@@ -1,24 +1,22 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Google Form with GPS</title>
+  <title>Redirect to Google Form with GPS</title>
   <style>
-    html, body {
-      margin: 0;
-      padding: 0;
-      height: 100%;
-      overflow: hidden;
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin-top: 20%;
     }
-    #googleForm {
-      width: 100%;
-      height: 100%;
-      border: none;
+    h1 {
+      font-size: 24px;
     }
   </style>
 </head>
 <body>
-  <!-- Embedded Google Form -->
-  <iframe id="googleForm"></iframe>
+  <h1>Redirecting to the form...</h1>
+  <p>If you are not redirected automatically, <a id="formLink" href="#">click here</a>.</p>
+
   <script>
     function getCurrentLocation() {
       if (navigator.geolocation) {
@@ -29,11 +27,14 @@
 
             // Build the Google Form URL with GPS coordinates
             const formBaseUrl = "https://docs.google.com/forms/d/e/1FAIpQLScqkGe6Jc1cnD3qXUvu3Al3Tayry70qFpbwuK6aa-gc5ttSnQ/viewform";
-            const gpsField = "entry.1127287054"; // Replace with your Google Form's field entry ID
+            const gpsField = "entry.1127287054"; // Replace with your actual field entry ID
             const formUrl = `${formBaseUrl}?${gpsField}=${encodeURIComponent(`Lat: ${lat}, Lng: ${lng}`)}`;
 
-            // Embed the form with the GPS data
-            document.getElementById("googleForm").src = formUrl;
+            // Redirect the user to the Google Form
+            window.location.href = formUrl;
+
+            // Update the fallback link for manual redirection
+            document.getElementById("formLink").href = formUrl;
           },
           (error) => {
             let message;
