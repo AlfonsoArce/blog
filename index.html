@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Capture GPS Location</title>
+  <title>GPS Location Capture</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -18,19 +18,21 @@
   </style>
 </head>
 <body>
-  <h1>GPS Location Capture</h1>
+  <h1>Capture GPS Location</h1>
   
-  <!-- Location Section -->
-  <h3>Your Current Location</h3>
-  <div id="locationInfo">
-    <p><strong>Latitude:</strong> <span id="latitude">Fetching...</span></p>
-    <p><strong>Longitude:</strong> <span id="longitude">Fetching...</span></p>
+  <p>Click the button below to fetch your current location. Ensure that location services are enabled, and grant the browser permission to access your GPS.</p>
+
+  <button onclick="getCurrentLocation()">Get My Location</button>
+  
+  <div id="locationInfo" style="margin-top: 20px;">
+    <p><strong>Latitude:</strong> <span id="latitude">Not available</span></p>
+    <p><strong>Longitude:</strong> <span id="longitude">Not available</span></p>
   </div>
-  
+
   <form id="locationForm" action="your-server-endpoint" method="POST">
     <input type="hidden" name="latitude" id="latitudeInput">
     <input type="hidden" name="longitude" id="longitudeInput">
-    <button type="submit">Submit Location</button>
+    <button type="submit" style="margin-top: 20px;">Submit Location</button>
   </form>
 
   <script>
@@ -41,40 +43,37 @@
             const lat = position.coords.latitude;
             const lng = position.coords.longitude;
 
-            // Display the location
+            // Update UI with location
             document.getElementById("latitude").textContent = lat;
             document.getElementById("longitude").textContent = lng;
 
-            // Update the hidden form inputs
+            // Update hidden form fields
             document.getElementById("latitudeInput").value = lat;
             document.getElementById("longitudeInput").value = lng;
           },
           (error) => {
+            // Handle errors gracefully
             let message;
             switch (error.code) {
               case error.PERMISSION_DENIED:
-                message = "User denied the request for Geolocation.";
+                message = "Permission denied. Please enable location permissions in your browser.";
                 break;
               case error.POSITION_UNAVAILABLE:
-                message = "Location information is unavailable.";
+                message = "Position unavailable. Try again later.";
                 break;
               case error.TIMEOUT:
-                message = "The request to get user location timed out.";
+                message = "Request timed out. Please try again.";
                 break;
               default:
                 message = "An unknown error occurred.";
-                break;
             }
             alert("Error: " + message);
           }
         );
       } else {
-        alert("Geolocation is not supported by this browser.");
+        alert("Geolocation is not supported by your browser.");
       }
     }
-
-    // Trigger location fetching when the page loads
-    window.onload = getCurrentLocation;
   </script>
 </body>
 </html>
