@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>GPS Location Capture</title>
+  <title>iPhone GPS Location Test</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -10,32 +10,17 @@
     #locationInfo {
       margin-top: 20px;
     }
-    button {
-      padding: 10px 20px;
-      font-size: 16px;
-      cursor: pointer;
-    }
   </style>
 </head>
 <body>
-  <h1>Capture GPS Location</h1>
-  
-  <p>Click the button below to fetch your current location. Ensure that location services are enabled, and grant the browser permission to access your GPS.</p>
-
-  <button onclick="getCurrentLocation()">Get My Location</button>
-  
-  <div id="locationInfo" style="margin-top: 20px;">
-    <p><strong>Latitude:</strong> <span id="latitude">Not available</span></p>
-    <p><strong>Longitude:</strong> <span id="longitude">Not available</span></p>
+  <h1>iPhone GPS Location Test</h1>
+  <div id="locationInfo">
+    <p><strong>Latitude:</strong> <span id="latitude">Fetching...</span></p>
+    <p><strong>Longitude:</strong> <span id="longitude">Fetching...</span></p>
   </div>
 
-  <form id="locationForm" action="your-server-endpoint" method="POST">
-    <input type="hidden" name="latitude" id="latitudeInput">
-    <input type="hidden" name="longitude" id="longitudeInput">
-    <button type="submit" style="margin-top: 20px;">Submit Location</button>
-  </form>
-
   <script>
+    // Function to automatically fetch the user's location on page load
     function getCurrentLocation() {
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(
@@ -43,20 +28,15 @@
             const lat = position.coords.latitude;
             const lng = position.coords.longitude;
 
-            // Update UI with location
+            // Display the location
             document.getElementById("latitude").textContent = lat;
             document.getElementById("longitude").textContent = lng;
-
-            // Update hidden form fields
-            document.getElementById("latitudeInput").value = lat;
-            document.getElementById("longitudeInput").value = lng;
           },
           (error) => {
-            // Handle errors gracefully
             let message;
             switch (error.code) {
               case error.PERMISSION_DENIED:
-                message = "Permission denied. Please enable location permissions in your browser.";
+                message = "Permission denied. Please allow location access in your browser settings.";
                 break;
               case error.POSITION_UNAVAILABLE:
                 message = "Position unavailable. Try again later.";
@@ -74,6 +54,9 @@
         alert("Geolocation is not supported by your browser.");
       }
     }
+
+    // Automatically call the function on page load
+    window.onload = getCurrentLocation;
   </script>
 </body>
 </html>
